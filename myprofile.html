@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>커머스 Spring 1기 서재원 프로필 페이지</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* 기본 */
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      color: #222;
+      background: #fafafa;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+    }
+
+    /* 프로필 영역 */
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap; /* 화면 좁아지면 줄바꿈 */
+    }
+    .image {
+      flex: 0 0 160px;       /* 고정 너비 */
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+    }
+    .image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    .info {
+      flex: 1 1 300px;
+      min-width: 260px;
+    }
+    .info h2 {
+      margin: 0 0 6px;
+      font-size: 28px;
+    }
+    .info p {
+      margin: 6px 0;
+      line-height: 1.6;
+    }
+
+    /* 섹션 공통 */
+    .section {
+      margin-top: 28px;
+    }
+    .section h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      border-left: 6px solid #4caf50;
+      padding-left: 10px;
+    }
+
+    /* 취미 칩 */
+    .hobby-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      display: inline-block;
+      padding: 6px 12px;
+      background: #e8f5e9;         /* 연한 초록 */
+      color: #1b5e20;
+      border: 1px solid #cfe8d1;
+      border-radius: 9999px;        /* 알약 모양 */
+      font-size: 14px;
+      font-weight: 600;
+      user-select: none;
+      transition: transform 0.08s ease, box-shadow 0.15s ease;
+    }
+    .chip:hover { 
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(76,175,80,0.25);
+    }
+
+    /* 관심분야 칩 */
+    .interest-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .interest {
+      display: inline-block;
+      padding: 6px 12px;
+      background: #fc9fff;         /* 연한 분홍 */
+      color: #ff6375;
+      border: 1px solid #cfe8d1;
+      border-radius: 9999px;        /* 알약 모양 */
+      font-size: 14px;
+      font-weight: 600;
+      user-select: none;
+      transition: transform 0.08s ease, box-shadow 0.15s ease;
+    }
+    .interest:hover { 
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(255, 160, 253, 0.25);
+    }
+
+    /* 반응형: 모바일에서 여백/크기 조정 */
+    @media (max-width: 520px) {
+      .container { margin: 16px; padding: 16px; }
+      .image { width: 130px; height: 130px; flex-basis:130px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <!-- 프로필 -->
+    <section class="profile">
+      <div class="image">
+        <!-- 프로젝트 폴더 내 상대 경로로 두는 것을 권장: images/myimage.jpeg -->
+        <img src="myimage.jpeg" alt="서재원 프로필 이미지" />
+      </div>
+      <div class="info">
+        <h2>서재원</h2>
+        <p>커머스 Spring 1기 수강생 서재원입니다.</p>
+        <p>백엔드 개발자를 꿈꾸며 웹개발 기초 강의 과제를 수행하고 있습니다.</p>
+        <p>부족함은 많지만 노력만큼은 가장 넘치는 구성원이 되기 위해 노력하겠습니다!</p>
+      </div>
+    </section>
+
+    <!-- 취미(칩) -->
+    <section class="section">
+      <h3>취미</h3>
+      <div class="hobby-list">
+        <span class="chip">코딩</span>
+        <span class="chip">여행</span>
+        <span class="chip">수영</span>
+        <span class="chip">운동</span>
+        <span class="chip">게임</span>
+      </div>
+    </section>
+
+    <section class="section">
+        <h3>관심분야</h3>
+        <div class="interest-list">
+            <span class="interest">Java</span>
+            <span class="interest">Javascript</span>
+            <span class="interest">Spring</span>
+            <span class="interest">Backend</span>
+            <span class="interest">Programming</span>
+        </div>
+    </section>
+  </main>
+</body>
+</html>

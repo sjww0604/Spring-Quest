@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+
+    <style>
+        .container {
+            max-width: 600px; margin: 40px auto; padding: 24px;
+            background: white; border-radius: 16px;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.706);
+            text-align: center; align-items: center; 
+        } 
+
+        #todo-input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid gray;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            overflow-y: hidden;
+            resize: none;
+            min-height: 48px;
+        }
+        #todo-input:focus {
+            border-color: blue;
+            background-color: aliceblue;
+        }
+
+        /* 추가 버튼*/
+        #submit-btn {
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0 20px;
+            font-size: 15px;
+            cursor: pointer;
+
+            align-self: stretch;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #submit-btn:hover {
+            background-color: darkgreen;
+        }
+
+        /* 수정 버튼 */
+        .edit-btn {
+            background-color: dodgerblue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+                    
+        }
+        .edit-btn:hover{
+            background-color: royalblue;
+        }
+
+        /* 삭제 버튼 */
+        .delete-btn {
+            background-color: crimson;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+        .delete-btn:hover{
+            background-color: darkred;
+        }
+
+        #todo-form {
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        #todo-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 16px 0 0;
+        }
+        .todo-item { 
+            display: flex; 
+            gap: 8px; 
+            justify-content: space-between; 
+            align-items: center; 
+            background-color: lightgray;
+            border-radius: 8px;
+            padding: 10px 14px; 
+            margin-bottom: 10px;
+        }
+        .item-title {
+            font-size: 16px;
+            white-space: pre-line;
+        }
+        .item-title.done { color: lightgray; text-decoration: line-through;}
+        
+
+    
+    </style>
+</head>
+    <body>
+        <div class="container">
+            <h1> 📋 할 일 목록</h1>
+           
+            <form id="todo-form">
+                <textarea id="todo-input" placeholder="할 일을 입력하세요..." rows="2"></textarea>
+                <button type="submit" id="submit-btn">추가</button>
+            </form>
+
+            <ul id="todo-list"></ul>    
+        </div>    
+                
+        <script>
+        const form  = document.getElementById('todo-form');
+        const input = document.getElementById('todo-input');
+        const list  = document.getElementById('todo-list');
+
+        function createItem(title) {
+            const li = document.createElement('li');
+            li.className = 'todo-item';
+            li.innerHTML = `
+                  <span class="item-title">${title.replace(/\n/g, '<br>')}</span>
+                  <div class="todo-actions">
+                  <button class="edit-btn">수정</button>
+                  <button class="delete-btn">삭제</button>
+                  </div>
+                      `;
+                  return li;
+            }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = input.value.trim();
+            
+            if (!title) return;
+                list.appendChild(createItem(title));   
+                input.value = '';
+                input.focus();
+            });
+        
+        input.addEventListener('input', () => {
+            input.style.height = 'auto';
+            input.style.height = input.scrollHeight + 'px';
+        });
+
+        input.addEventListener('keydown', (e) => {
+            // 🔒 한글 IME 조합 중이면 제출 금지 (중복/마지막 글자 반복 방지)
+            if (e.isComposing || e.keyCode === 229) return;
+            
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                if(typeof form.requestSubmit === 'function' ) form.requestSubmit();
+                else form.dispatchEvent (new Event ('submit', { cancelable: true}));
+            }
+        }); 
+
+        list.addEventListener('click', (e) => {
+            const target = e.target;
+            const li = target.closest('.todo-item');
+            if (!li) return;
+
+            if (target.classList.contains('delete-btn')) {
+                li.remove();
+                return;
+            }
+
+            if (target.classList.contains('edit-btn')) {
+                const span = li.querySelector('.item-title');
+                if (!span) return;
+                const next = prompt('할 일 수정', span.textContent);
+                if (next === null) return;
+                const v = next.trim();
+                if (v) span.textContent = v;
+            }
+        });
+    </script>
+    </body>
+</html>

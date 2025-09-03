@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+    
+<head>
+    <meta charset="UTF-8">
+    <title>점심 메뉴 추천기</title>
+
+    <style>
+    * { box-sizing: border-box; }
+    body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        margin: 0;
+        color: #222;
+        background: #fafafa;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+    }
+
+    .full { width: 100%;}    
+
+    select.full, 
+    input[type="text"].full {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid lightgray;
+        border-radius: 10px;
+    }
+
+    input[type="range"].full {
+        width: 100%;
+
+    }
+    output.below { display: block; margin-top: 8px; color: gray;}
+
+    .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .radio-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+    
+    .actions { margin-top: 12px;}
+    #submit-btn{
+        display: block;
+        margin-top: 20px;
+        padding: 12px 18px;
+        border: 0; border-radius: 10px;
+        background-color: green;
+        color: white;
+    }
+
+
+    </style>
+</head>
+
+    <body>
+        <main class="container">
+            <h1>🍱 점심 메뉴 추천기</h1>
+            <form id="lunch-form">
+                <div class="field">
+                <h3>🌶️ 맵기 정도</h3>
+                <select id="spicy" name="spicy" class="full">
+                    <option value="" disabled selected>===맵기를 선택하세요===</option>
+                    <option value="매운거 싫어요">매운거 싫어요</option>
+                    <option value="살짝 매운 맛">살짝 매운 맛</option>
+                    <option value="기본 매운 맛">기본 매운 맛</option>
+                    <option value="조금 매운 맛">조금 매운 맛</option>
+                    <option value="화끈한 매운 맛">화끈한 매운 맛</option>
+                    <option value="아주 매운 맛">아주 매운 맛</option>
+                </select>
+                </div>
+
+                <div class="field">
+                    <h3>💰 예산</h3>
+                    <input type="range" id="budget" name="budget"
+                    min="5000" max="20000" step="1000" value="5000" class="full">
+                    <output id="budget-out">5,000원</output>
+                </div>
+
+            <div class="field">
+                <h3>🍗 음식 종류</h3>
+                <div class="radio-group" >
+                    <label class="radio-item">
+                    <input type="radio" id="korea" name="food-category" value="한식" required>
+                        🍚 한식</label>
+
+                    <label class="radio-item">    
+                    <input type="radio" id="japan" name="food-category" value="일식">
+                        🍙 일식</label>
+
+                    <label class="radio-item">
+                    <input type="radio" id="china" name="food-category" value="중식">
+                        🥟 중식</label>            
+                    <label class="radio-item">
+                    <input type="radio" id="western" name="food-category" value="양식">
+                        🍕 양식</label>
+                </div>
+            </div>        
+
+            <div class="field">
+                <h3>🙂 오늘의 기분은?</h3>
+                <input type="text" id="mood" placeholder="오늘의 기분을 입력하세요" class="full" >
+            </div>
+
+            <button type="submit" id="submit-btn">추천받기</button>
+            </form>
+        </main>
+
+    </body>
+
+    <script>
+        const budget = document.getElementById('budget');
+        const budgetOut = document.getElementById('budget-out');
+        const toKRW = v => Number(v).toLocaleString('ko-KR') + ' 원';
+        budget.addEventListener('input', () => budgetOut.value = toKRW(budget.value));
+        
+        const form = document.getElementById('lunch-form');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const spicy = document.getElementById('spicy').value;
+            const budget = document.getElementById('budget').value;
+            //궁금한 점, formdata는 음식 종류의 입력값만을 받기위해서 사용한 개념인가?
+            //아니면 실질적으로 js에서 값을 두번씩 불러오고 있지는 않은가? 
+            const data = new FormData(form);
+            const category = data.get('food-category');
+            const mood = document.getElementById('mood').value.trim();
+
+            // 입력값이 정상적으로 입력되지 않았을 때 조건문을 통한 유효성 검사 진행
+            if (!category) { alert('음식 종류를 선택하세요.'); return;}
+            if (!mood) { alert('오늘의 기분을 입력하세요.'); return;}
+
+            // 입력된 값을 콘솔창으로 기록시키고, 입력된 상수값인 맵기,예산 등의 형태를 구현
+            console.log('맵기: ', spicy);
+            console.log('예산: ', budget);
+            console.log('음식 종류: ', category);
+            console.log('기분: ', mood);
+
+            alert('입력이 접수되었습니다! (개발자도구 콘솔에서 값을 확인하세요)');
+
+            async function fetchLatestName() {
+                const res = await fetch("https://6863bafe88359a373e960f61.mockapi.io/sparta/web/lunch");
+                const list = await res.json();
+
+            // 배열의 마지막 요소를 '가장 최근'이라고 가정
+            for (let i = list.length - 1; i >= 0; i--) {
+                if (list[i].name) {
+                    return list[i].name;
+                }
+            }
+
+            // 끝까지 없으면
+            return "(name 없음)";
+            }
+
+              try {
+                const latestName = await fetchLatestName();
+                alert(`가장 최근 생성된 name: ${latestName}`);
+  
+            } catch (err) {
+                console.error(err);
+                alert("API 호출 실패");
+            }
+        });
+    </script>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>커머스 Spring 1기 서재원 프로필</title>
+
+    <style>
+        * {box-sizing: border-box;}
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0; color: black; background: white;
+        }
+
+        .container {
+            max-width: 900px; margin: 40px auto; padding: 24px;
+            background: white; border-radius: 16px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+        }
+
+        .profile{
+            overflow: auto;
+        }
+
+        figure.image {
+            float: left;
+            margin: 0 24px 8px 0;     /* 오른쪽·아래 여백 */
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.18);        
+        }
+
+        figure.image img { width: 100%; height: 100%; object-fit: cover; display: block;}
+
+        .profile h2 { margin: 0 0 4px; line-height: 1.2; }
+        .profile p  { margin: 6px 0; line-height: 1.6; }
+
+        .section {margin-top: 28px;}
+        .section h3 {margin: 0 0 12px; font-size: 20px; border-left: 6px solid greenyellow; padding-left: 10px;}
+
+        .list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0;}
+        .chip {
+            display: inline-block; padding: 6px 12px;
+            background: white; color: green; border: 1px solid lightgreen;
+            border-radius: 9999px; font-size: 14px; font-weight: 600; user-select: none;
+        }
+        .interest-table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: separate;
+            border-spacing: 12px 12px;
+            margin: 8px 0 20px;
+        }
+
+        .interest-table td {
+            background : pink;
+            border: 1px solid orange;
+            border-radius: 14px;
+            padding: 14px 16px;
+            text-align: center;
+            font-weight: 600;
+            color: rgb(245, 107, 255);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            vertical-align: middle;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .footer {
+            margin-top: 32px; padding-top: 16px; border-top: 1px solid whitesmoke;
+            text-align: left; color: rgb(130, 130, 130); font-size: 14px;
+        }
+
+        iframe {
+            display: block;
+            margin: 20px 0;
+        }
+    </style>
+</head>    
+    <body>
+        <div class="container">
+
+            <div class="profile">
+                <figure class="image">
+                    <img src="myimage.jpeg" alt="서재원 미모티콘" />
+                </figure>
+                    <h2>서재원</h2>
+                    <p>커머스 Spring 1기 수강생 서재원입니다.</p>
+                    <p>백엔드 개발자를 꿈꾸며 웹개발 기초 과제를 수행하고 있습니다.</p>
+                    <p>부족함은 많지만 노력만큼은 가장 넘치는 구성원이 되기 위해 노력하겠습니다!</p>
+            </div>
+
+            <div class="hobby section">
+                <h3>취미</h3>
+                <ul class="list">
+                    <li><span class="chip">코딩</span></li>
+                    <li><span class="chip">여행</span></li>
+                    <li><span class="chip">운동</span></li>
+                    <li><span class="chip">수영</span></li>
+                    <li><span class="chip">게임</span></li>
+                </ul>
+            </div>    
+                <h3>관심분야</h3>
+            <table class ="interest-table">
+                <tr>
+                    <td>Java</td>
+                    <td>Javascript</td>
+                    <td>Spring</td>
+                </tr>
+            
+                <tr>
+                    <td>Backend</td>
+                    <td>Coding</td>
+                </tr>
+            </table>
+
+            <script>
+                var player;
+                function onYoutubeIframeApiReady() {
+                    player = new YT.Player('player', {
+                       width : '640',
+                       height : '360',
+                       videoId : 'LsVtNqnI3Zk',
+                       event : {
+                            'onReady' : onPlayerReady,
+                            'onStateChange' : onPlayerStateChange
+                       }
+                    });
+                }
+            </script>    
+
+            <iframe 
+                src="https://www.youtube.com/embed/LsVtNqnI3Zk" 
+                width="300" 
+                height="300"
+                title="YouTube video player"
+                style="border: none;"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+                iframe을 지원하지 않는 브라우저입니다.
+            </iframe>
+
+            <div class="footer">
+                <p>📧 이메일 : <a href="mailto:stark77@naver.com">stark77@naver.com</a></p>
+                <p>📗 Github : <a href="https://github.com/sjww0604/sparta" target="_blank">https://github.com/sjww0604/sparta</a></p>
+                <p>📍 위치 : 서울 대한민국</p>
+            </div>
+        </div>
+    </body>
+</html>
