@@ -152,6 +152,8 @@
 
             alert('입력이 접수되었습니다! (개발자도구 콘솔에서 값을 확인하세요)');
 
+
+/* 링크 통하여 업데이트 위해 그룹 주석 진행
             async function fetchLatestName() {
                 const res = await fetch("https://6863bafe88359a373e960f61.mockapi.io/sparta/web/lunch");
                 const list = await res.json();
@@ -174,7 +176,23 @@
             } catch (err) {
                 console.error(err);
                 alert("API 호출 실패");
-            }
+
+                */
+              async function fetchRandomLunch() {
+                const res = await fetch("https://68b7baee73b3ec66cec55e50.mockapi.io/lunch");
+                const list = await res.json();
+                    if (!Array.isArray(list) || list.length === 0) return "(데이터 없음)";
+                    const randomIndex = Math.floor(Math.random() * list.length);
+                    return list[randomIndex].name ?? "(name 없음)";
+                }
+
+                try {
+                    const randomName = await fetchRandomLunch();
+                    alert(`오늘의 랜덤 추천 메뉴: ${randomName}`);
+                } catch (err) {
+                      console.error(err);
+                      alert("API 호출 실패");
+                    }
         });
     </script>
 </html>
