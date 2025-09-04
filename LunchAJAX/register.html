@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>점메추 등록</title>
+    <style>
+            * { box-sizing: border-box; }
+            body { font-family: 'Helvetica Neue', Arial, sans-serif; 
+            margin: 0; background:#fafafa; color:#222; 
+        }
+
+            .container { max-width:900px; margin:40px auto; padding:24px; 
+                background:#fff; border-radius:16px; 
+                box-shadow:0 10px 24px rgba(0,0,0,.06); }
+
+            .full { width:100%; }
+            select.full, input[type="text"].full { width:100%; padding:12px; 
+                border:1px solid lightgray; border-radius:10px; }
+
+            input[type="range"].full { width:100%; }
+            output.below { display:block; margin-top:8px; color:gray; }
+    
+            .radio-group { display:flex; flex-direction:column; gap:8px; }
+            .radio-item { display:flex; align-items:center; gap:8px; cursor:pointer; }
+            .actions { margin-top:12px; }
+
+            button { padding: 12px 18px; border:0; border-radius:10px; cursor:pointer; 
+            align-items: center;}
+            
+            #button-submit {
+                color: rgb(255, 255, 255);
+                background-color: rgba(74, 61, 255, 0.98);
+                margin-top: 10px;
+                margin-right: 5px;
+            }
+
+            #button-list {
+                color: rgb(255, 255, 255);
+                background-color: rgba(0, 0, 0, 0.98);
+                margin-top: 10px;
+                margin-right: 5px;
+
+            }
+            #button-home {
+                color: rgb(255, 255, 255);
+                background-color: rgba(255, 0, 0, 0.98);
+                margin-right: 5px;
+            }                       
+    </style>
+</head>
+    <body>
+        <!-- 점메추 기본 양식 끌고옴 -->
+        <main class="container">
+        <h1>🍱 점심 메뉴 추천기 등록화면</h1>
+        <p>다른 분들에게 점심메뉴를 추천하기 위한 상품 등록 화면입니다.</p>
+            <form id="lunch-form">
+            <div class="field">
+                <h3>💬 메뉴 이름</h3>
+                <input type="text" placeholder="음식명만 기입해주세요." required id="name" name="name" class="full">
+            </div>    
+
+            <div class="field">
+                <h3>🌶️ 맵기 정도</h3>
+                    <select id="spicy" name="spicy" class="full" required>
+                        <option value="" disabled selected>===맵기를 선택하세요===</option>
+                        <option value="매운거 싫어요">매운거 싫어요</option>
+                        <option value="살짝 매운 맛">살짝 매운 맛</option>
+                        <option value="기본 매운 맛">기본 매운 맛</option>
+                        <option value="조금 매운 맛">조금 매운 맛</option>
+                        <option value="화끈한 매운 맛">화끈한 매운 맛</option>
+                        <option value="아주 매운 맛">아주 매운 맛</option>
+                    </select>
+            </div>
+
+            <div class="field">
+                <h3>💰 예산</h3>
+                    <input type="range" id="budget" name="budget" min="5000" max="20000" step="1000" value="5000" class="full">
+                    <output id="budget-out" class="below">5,000 원</output>
+                </div>
+
+            <div class="field">
+                <h3>🍗 음식 종류</h3>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" id="korea" name="food-category" value="한식" > 🍚 한식 </label>
+                        <label class="radio-item">
+                            <input type="radio" id="japan" name="food-category" value="일식"> 🍙 일식 </label>
+                        <label class="radio-item">
+                            <input type="radio" id="china" name="food-category" value="중식"> 🥟 중식 </label>
+                        <label class="radio-item">
+                            <input type="radio" id="western" name="food-category" value="양식"> 🍕 양식 </label>
+                    </div>
+            </div>
+
+            <div class="field">
+                <h3>🙂 오늘의 기분은?</h3>
+                <!-- ✅ name 추가 -->
+                    <input type="text" id="mood" name="mood" placeholder="오늘의 기분을 입력하세요" class="full" >
+            </div>
+
+            <button id="button-submit" type="submit">등록하기</button>
+            <button id="button-list" type="button" onclick="location.href='list.html'">목록보기</button>
+            <button id="button-home" type="button" onclick="location.href='index.html'">처음으로</button>
+
+        </form>
+  </main>
+
+  <script>
+    /* 서버 베이스를 MockAPI URL을 사용하고자 함
+    Javascript 또한 이전 사용했던 구문에서 일부 수정만 진행*/
+    const API_BASE = 'https://68b7baee73b3ec66cec55e50.mockapi.io/lunch';
+
+    const budget = document.getElementById('budget');
+    const budgetOut = document.getElementById('budget-out');
+    const toKRW = v => Number(v).toLocaleString('ko-KR') + ' 원';
+    budget.addEventListener('input', () => budgetOut.textContent = toKRW(budget.value));
+
+
+
+    const form = document.getElementById('lunch-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+    
+    const formData = new FormData(form);
+    const name = formData.get('name'||'').trim();        // 이름 입력
+    const spicy = formData.get('spicy');                 // 문자열 (ex: "기본 매운 맛")
+    const budgetNum = Number(formData.get('budget')||0); // 숫자화
+    const category = formData.get('food-category');      // 문자열
+    const mood = (formData.get('mood')||'').trim();
+
+    if (!category) return alert('음식 종류를 선택하세요.');
+    if (!mood) return alert('오늘의 기분을 입력하세요.');
+
+    const autoName = `${category} - ${spicy || '맵기 미정'}`;
+    const payload = {
+        name,
+        spicy,                // 원문 그대로 저장
+        budget: budgetNum,
+        category,
+        mood,
+        };
+
+    try {
+        await fetch(API_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+        alert('등록 완료!');
+        form.reset();
+    } catch (err) {
+        console.error(err);
+        alert('API 호출 실패');
+    }
+    });
+
+  </script>
+
+    </body>    
+</html>

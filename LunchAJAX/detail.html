@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <meta charset="UTF-8">
+<head>
+    <title>점심 메뉴 추천 상세페이지</title>
+
+    <style>
+            * { box-sizing: border-box; }
+            body { font-family: 'Helvetica Neue', Arial, sans-serif; 
+            margin: 0; background:#fafafa; color:#222; 
+        }
+
+            .container { max-width:900px; margin:40px auto; padding:24px; 
+                background:#fff; border-radius:16px; 
+                box-shadow:0 10px 24px rgba(0,0,0,.06); text-align: center;}
+
+      
+            /* 표 스타일 */
+            table { width:100%; border-collapse: collapse; table-layout: fixed; }
+            thead th {
+                background:#f5f6fa; border:1px solid #e5e7eb; padding:12px 10px;
+                text-align:center; font-weight:600;
+            }
+            tbody td {
+                border:1px solid #e5e7eb; padding:12px 10px; vertical-align: middle;
+                text-align: center;
+            }
+
+            /* 칼럼 정렬 */
+            td.col-name   { text-align: left;  }
+            td.col-budget { text-align: right; }
+            td.col-center { text-align: center; }
+
+            /* 지그재그 가독성 - 표 테마와 유사한 기능 끌어옴 */
+            tbody tr:nth-child(odd)  { background:#fafbff; }
+            tbody tr:nth-child(even) { background:#fff; }
+
+            button { padding: 12px 18px; border:0; border-radius:10px; cursor:pointer; 
+            align-items: center;}
+            
+            #button-submit {
+                color: rgb(255, 255, 255);
+                background-color: rgba(74, 61, 255, 0.98);
+                margin-top: 10px;
+                margin-right: 5px;
+            }
+
+            #button-list {
+                color: rgb(255, 255, 255);
+                background-color: rgba(0, 0, 0, 0.98);
+                margin-top: 10px;
+                margin-right: 5px;
+
+            }
+            #button-home {
+                color: rgb(255, 255, 255);
+                background-color: rgba(255, 0, 0, 0.98);
+                margin-right: 5px;
+            }    
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>✅ 점심메뉴 추천 상세페이지</h1>
+
+        <div class="actions">
+            <button id="button-home" onclick="location.href='index.html'">메인</button>
+            <button id="button-submit" onclick="location.href='register.html'">등록하기</button>
+            <button id="button-list" onclick="location.href='list.html'">목록보기</button>
+        </div>
+        
+        <div id="status" style="text-align: center; margin: 8px 0 16px; color: gray;">불러오는 중...</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>항목</th>
+                    <th>내용</th>
+                </tr>
+            </thead>
+            <tbody id="detail-body">
+
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+  const API_BASE = 'https://68b7baee73b3ec66cec55e50.mockapi.io/lunch';
+  const $status = document.getElementById('status');
+  const $tbody  = document.getElementById('detail-body');
+
+  (async () => {
+    try {
+      const id = new URLSearchParams(location.search).get('id');
+      if (!id) {
+        $status.textContent = 'id 파라미터가 없어 상세를 불러올 수 없어요.';
+        return;
+      }
+
+      $status.textContent = '불러오는 중…';
+
+      const res = await fetch(`${API_BASE}/${encodeURIComponent(id)}`, {
+        headers: { Accept: 'application/json' }
+      });
+
+      if (res.status === 404) {
+        $status.textContent = `해당 항목(id=${id})을 찾을 수 없습니다. (404)`;
+        return;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const m = await res.json();
+      const budget = m.budget != null ? Number(m.budget).toLocaleString('ko-KR') + '원' : '-';
+
+      $tbody.innerHTML = `
+        <tr><td>메뉴 이름</td><td>${m.name ?? '(이름없음)'}</td></tr>
+        <tr><td>예산</td><td>${budget}</td></tr>
+        <tr><td>맵기</td><td>${m.spicy ?? '-'}</td></tr>
+        <tr><td>종류</td><td>${m.category ?? '-'}</td></tr>
+        <tr><td>기분</td><td>${m.mood ?? '-'}</td></tr>
+      `;
+      $status.textContent = '';
+    } catch (err) {
+      console.error(err);
+      $status.textContent = '상세 불러오기 실패: ' + (err.message || '알 수 없는 오류');
+    }
+  })();
+    </script>
+</body>    
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>🍱 점심메뉴 추천기</title>
+        <style>
+            body { font-family: 'Helvetica Neue', Arial, sans-serif; 
+            margin: 0; background:#fafafa; color:#222; 
+        }
+
+            .container { 
+                max-width: 900px; 
+                margin: 40px auto; padding: 24px; 
+                background:#fff; border-radius:16px; 
+                box-shadow:0 10px 24px rgba(0,0,0,.06); 
+                text-align: center;
+            }
+
+            button { padding: 12px 18px; border:0; border-radius:10px; cursor:pointer; 
+            align-items: center;}
+
+            #button-submit {
+                color: rgb(255, 255, 255);
+                background-color: rgba(74, 61, 255, 0.98);
+                margin-right: 5px;
+            }
+
+            #button-list {
+                color: rgb(255, 255, 255);
+                background-color: rgba(0, 0, 0, 0.98);
+                margin-right: 5px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="container">
+            <h1>🍱 점심 메뉴 추천기 </h1>
+            <button id="button-submit" onclick="location.href='register.html'">등록하기</button>
+            <button id="button-list" onclick="location.href='list.html'">목록보기</button>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>점메추 등록목록</title>
+
+        <style>
+            * { box-sizing: border-box; }
+            body { font-family: 'Helvetica Neue', Arial, sans-serif; 
+            margin: 0; background:#fafafa; color:#222; 
+        }
+
+            .container { max-width:900px; margin:40px auto; padding:24px; 
+                background:#fff; border-radius:16px; 
+                box-shadow:0 10px 24px rgba(0,0,0,.06); text-align: center;}
+
+      
+            /* 표 스타일 */
+            table { width:100%; border-collapse: collapse; table-layout: fixed; }
+            thead th {
+                background:#f5f6fa; border:1px solid #e5e7eb; padding:12px 10px;
+                text-align:center; font-weight:600;
+            }
+            tbody td {
+                border:1px solid #e5e7eb; padding:12px 10px; vertical-align: middle;
+                text-align: center;
+            }
+
+            /* 칼럼 정렬 */
+            td.col-name   { text-align: left;  }
+            td.col-budget { text-align: right; }
+            td.col-center { text-align: center; }
+
+            /* 지그재그 가독성 - 표 테마와 유사한 기능 끌어옴 */
+            tbody tr:nth-child(odd)  { background:#fafbff; }
+            tbody tr:nth-child(even) { background:#fff; }
+
+            button { padding: 12px 18px; border:0; border-radius:10px; cursor:pointer; 
+            align-items: center;}
+            
+            #button-submit {
+                color: rgb(255, 255, 255);
+                background-color: rgba(74, 61, 255, 0.98);
+                margin-top: 10px;
+                margin-right: 5px;
+            }
+
+            #button-list {
+                color: rgb(255, 255, 255);
+                background-color: rgba(0, 0, 0, 0.98);
+                margin-top: 10px;
+                margin-right: 5px;
+
+            }
+            #button-home {
+                color: rgb(255, 255, 255);
+                background-color: rgba(255, 0, 0, 0.98);
+                margin-right: 5px;
+            }                       
+        </style>
+    </head>
+
+    <body>
+        <main class="container">
+            <h1>📋 점심메뉴 추천 등록 목록</h1>
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>예산</th>
+                        <th>맵기</th>
+                        <th>종류</th>
+                        <th>기분</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        <div class="actions">
+            <button id="button-home" onclick="location.href='index.html'">메인</button>
+            <button id="button-submit" onclick="location.href='register.html'">등록하기</button>
+        </div>
+        </main>
+
+    <script>
+        const API_BASE = 'https://68b7baee73b3ec66cec55e50.mockapi.io/lunch';
+        
+
+  (async () => {
+    try {
+      const res = await fetch(API_BASE, { headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const rows = await res.json();
+
+      const tbody = document.querySelector('#table tbody'); // ✅ ID 선택자 추가
+      if (!Array.isArray(rows) || rows.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5">등록된 항목이 없습니다</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = rows.map(m => {
+        const budget = m.budget ? Number(m.budget).toLocaleString('ko-KR') + '원' : '-';
+        return `
+          <tr>
+            <td><a href="detail.html?id=${m.recommend}">${m.name ?? '(이름없음)'}</a></td>
+            <td>${budget}</td>
+            <td>${m.spicy ?? '-'}</td>
+            <td>${m.category ?? '-'}</td>
+            <td>${m.mood ?? '-'}</td>
+          </tr>
+        `;
+      }).join('');
+    } catch (err) {
+      console.error(err);
+      alert('목록 불러오기 실패: ' + (err.message || 'unknown'));
+    }
+  })();
+    </script>
+    </body>
+</html>
