@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": "DUPLICATE_MENU",
+    "message": "Menu name already exists"
+  }
+}
