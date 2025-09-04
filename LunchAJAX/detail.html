@@ -54,7 +54,7 @@
             }
             #button-home {
                 color: rgb(255, 255, 255);
-                background-color: rgba(255, 0, 0, 0.98);
+                background-color: rgb(255, 0, 0);
                 margin-right: 5px;
             }    
     </style>
@@ -86,44 +86,55 @@
 
     <script>
   const API_BASE = 'https://68b7baee73b3ec66cec55e50.mockapi.io/lunch';
+  /* DOM 요소들을 알아보기 쉽게 하기 위해 변수 앞에 $ 접두사를 붙여서 표현하는 관습*/
   const $status = document.getElementById('status');
   const $tbody  = document.getElementById('detail-body');
 
-  (async () => {
-    try {
-      const id = new URLSearchParams(location.search).get('id');
-      if (!id) {
-        $status.textContent = 'id 파라미터가 없어 상세를 불러올 수 없어요.';
-        return;
-      }
-
-      $status.textContent = '불러오는 중…';
-
-      const res = await fetch(`${API_BASE}/${encodeURIComponent(id)}`, {
-        headers: { Accept: 'application/json' }
-      });
-
-      if (res.status === 404) {
-        $status.textContent = `해당 항목(id=${id})을 찾을 수 없습니다. (404)`;
-        return;
-      }
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-      const m = await res.json();
-      const budget = m.budget != null ? Number(m.budget).toLocaleString('ko-KR') + '원' : '-';
-
-      $tbody.innerHTML = `
-        <tr><td>메뉴 이름</td><td>${m.name ?? '(이름없음)'}</td></tr>
-        <tr><td>예산</td><td>${budget}</td></tr>
-        <tr><td>맵기</td><td>${m.spicy ?? '-'}</td></tr>
-        <tr><td>종류</td><td>${m.category ?? '-'}</td></tr>
-        <tr><td>기분</td><td>${m.mood ?? '-'}</td></tr>
-      `;
-      $status.textContent = '';
-    } catch (err) {
-      console.error(err);
-      $status.textContent = '상세 불러오기 실패: ' + (err.message || '알 수 없는 오류');
+ // 기분에 따른 이모지
+    function moodEmoji(mood) {
+    const txt = (mood || '').trim();
+    if (/행복|맛|좋|행복해|신남|설렘|최고|기쁨/.test(txt)) return '😋';
+    if (/든든|배부|편안|여유|무난|보통|쏘쏘/.test(txt)) return '😌';
+    if (/피곤|우울|스트레스|짜증|답답/.test(txt)) return '😮‍💨';
+    return '🙂';
     }
+
+// 맵기에 따른 배경색 변화
+    function spicyBg(spicy) {
+        const s = spicy || '';
+        if (/싫어|살짝/.test(s)) return 'lightblue'; 
+        if (/기본|조금/.test(s)) return 'lightyellow'; 
+        if (/화끈한|아주/.test(s)) return 'red';
+        return 'white'; 
+    } 
+
+  // 매우 심플한 흐름: recommend로 한 건 조회 → 렌더
+  (async () => {
+    $status.textContent = '불러오는 중…';
+
+    // list.html에서 detail.html?id=<recommend>로 넘어온다고 가정
+    const recommend = new URLSearchParams(location.search).get('id');
+
+    // recommend로 조회 (검증/에러처리 없이 최소 흐름)
+    const res = await fetch(`${API_BASE}?recommend=${encodeURIComponent(recommend)}`);
+    const arr = await res.json();
+    const m = arr[0] || {};
+
+    // 배경색/이모지 적용
+    document.body.style.background = spicyBg(m.spicy);
+    const emoji  = moodEmoji(m.mood);
+    const budget = m.budget != null ? Number(m.budget).toLocaleString('ko-KR') + '원' : '-';
+
+    // 표 렌더, 감정에 따라 ${emoji}로 추가 출력
+    $tbody.innerHTML = `
+      <tr><td>메뉴 이름</td><td>${m.name ?? '(이름없음)'} </td></tr>
+      <tr><td>예산</td><td>${budget}</td></tr>
+      <tr><td>맵기</td><td>${m.spicy ?? '-'}</td></tr>
+      <tr><td>종류</td><td>${m.category ?? '-'}</td></tr>
+      <tr><td>기분</td><td>${m.mood ?? '-'} ${emoji}</td></tr>
+    `;
+
+    $status.textContent = '';
   })();
     </script>
 </body>    
