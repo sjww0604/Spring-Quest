@@ -23,8 +23,8 @@
     <li>CH4. 점심 메뉴 추천기</li>
       <a href ="https://github.com/sjww0604/Spring-Quest/blob/main/lunchmenurecommend.html">상세 보기</a>
     <li>CH5. 점심 메뉴 추천기 API</li>
-      <a href ="https://github.com/sjww0604/Spring-Quest/blob/main/LunchApipost.json">상세보기1(POST)</a>
-      <a href ="https://github.com/sjww0604/Spring-Quest/blob/main/responseList.json">상세보기2(GET)</a>
+      <p></p><a href ="https://github.com/sjww0604/Spring-Quest/blob/main/LunchApipost.json">상세보기1(POST)</a></p>
+      <p></p><a href ="https://github.com/sjww0604/Spring-Quest/blob/main/responseList.json">상세보기2(GET)</a></p>
     <li>CH6. 점심 메뉴 추천기 Ajax</li>
       <a href =""></a>
   </ul>  
