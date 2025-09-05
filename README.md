@@ -1,3 +1,5 @@
+
+
 <h1>Spring Quest 진행과정 정리</h1>
 
 <p>커머스 Spring 과정 진행 간 작업한 결과물 모음</p>
@@ -23,9 +25,11 @@
     <li>CH4. 점심 메뉴 추천기</li>
       <a href ="https://github.com/sjww0604/Spring-Quest/blob/main/lunchmenurecommend.html">상세 보기</a>
     <li>CH5. 점심 메뉴 추천기 API</li>
+      <div class="list">
       <p><a href ="https://github.com/sjww0604/Spring-Quest/blob/main/LunchApipost.json">상세보기1(POST)</a></p>
       <p><a href ="https://github.com/sjww0604/Spring-Quest/blob/main/responseList.json">상세보기2(GET)</a></p>
+      </div>  
     <li>CH6. 점심 메뉴 추천기 Ajax</li>
-      <a href =""></a>
+      <a href ="https://github.com/sjww0604/Spring-Quest/tree/main/LunchAJAX">상세 보기</a>
   </ul>  
 <p>웹 개발 실전</p>
