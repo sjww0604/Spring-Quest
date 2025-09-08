@@ -15,7 +15,8 @@
 <h2>📗 작업 상세 내용 </h2>
 
 <p>웹 개발 기초</p>
-  <ul>
+  <table>
+    <th>CH1</th>
     <li>CH1. 웹 개발 동작 원리 이해</li>
       <a href =""></a>
     <li>CH2. 자기소개 프로필 만들기</li>
@@ -31,5 +32,8 @@
       </div>  
     <li>CH6. 점심 메뉴 추천기 Ajax</li>
       <a href ="https://github.com/sjww0604/Spring-Quest/tree/main/LunchAJAX">상세 보기</a>
-  </ul>  
+  </table>  
 <p>웹 개발 실전</p>
+  <tr>
+    <
+  </tr>
