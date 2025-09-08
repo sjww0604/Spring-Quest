@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 목록</title>
+</head>
+<body>
+    <h2 th:text="${userName} + '님, 반갑습니다!'">사용자 이름</h2>
+
+    <h3>상품 목록</h3>
+    <ul>
+        <li th:each="product : ${products}">
+            <p>상품명: <span th:text="${product.name}">제품명</span></p>
+            <p>가격: <span th:text="${product.price}">0</span>원</p>
+            <p>수량: <span th:text="${product.quantity}">0</span>개</p>
+            <hr/>
+        </li>
+    </ul>
+</body>
+</html>
