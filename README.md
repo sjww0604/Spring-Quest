@@ -16,8 +16,7 @@
 
 <p>웹 개발 기초</p>
   <table>
-    <tr>CH1</tr>
-    <td>웹 개발 동작 원리 이해</td>
+    <li>웹 개발 동작 원리 이해</li>
       <a href =""></a>
     <li>CH2. 자기소개 프로필 만들기</li>
       <a href = "https://github.com/sjww0604/Spring-Quest/blob/main/realmyprofile.html">상세 보기</a>  
@@ -35,5 +34,5 @@
   </table>  
 <p>웹 개발 실전</p>
   <tr>
-    <
+    <a href ="https://github.com/sjww0604/Spring-Quest/tree/main/practical2_starter"></a>
   </tr>
