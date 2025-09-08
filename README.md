@@ -16,7 +16,7 @@
 
 <p>웹 개발 기초</p>
   <table>
-    <th>CH1</th>
+    <tr>CH1</tr>
     <li>CH1. 웹 개발 동작 원리 이해</li>
       <a href =""></a>
     <li>CH2. 자기소개 프로필 만들기</li>
