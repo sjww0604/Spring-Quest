@@ -1,0 +1,66 @@
+/* 화면 전환(show/hide) & 페이드 */
+.view { display: none; }
+.view.active { display: block; }
+
+/* 짧은 페이드 인 */
+.view.fade { animation: fadeIn 180ms ease; }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* (옵션) 활성 탭 표시 */
+nav a { padding: 6px 10px; border-radius: 6px; text-decoration: none; color: #111; }
+nav a.active { background: #eef2ff; color: #1d4ed8; font-weight: 600; }
+
+/* 메뉴 등록 폼 깔끔하게 */
+.menu-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+}
+
+.menu-form label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.menu-form input,
+.menu-form select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.menu-form input:focus,
+.menu-form select:focus {
+    outline: none;
+    border-color: #2563eb;       /* 파란색 포커스 테두리 */
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+.actions button {
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #f9f9f9;
+    cursor: pointer;
+}
+
+.actions button:hover {
+    background: #f0f0f0;
+}
+
+/* 값 필터 css */
+#filters { display:flex; gap:10px; align-items:center; margin:8px 0 10px; }
+#filters select { padding:6px 8px; border:1px solid #ccc; border-radius:6px; }
