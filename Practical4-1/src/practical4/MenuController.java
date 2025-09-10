@@ -15,25 +15,21 @@ public class MenuController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        System.out.println("[GET] /menu action=" + action);
 
         // 1) 등록 폼
         if ("form".equals(action)) {
-            System.out.println("[ROUTE] forward -> /form.jsp");
             request.getRequestDispatcher("/form.jsp").forward(request, response);
             return;
         }
 
         // 2) 조건 선택 화면
         if ("select".equals(action)) {
-            System.out.println("[ROUTE] forward -> /select.jsp");
             request.getRequestDispatcher("/select.jsp").forward(request, response);
             return;
         }
 
         // 3) 기본: 목록 화면
         request.setAttribute("menus", service.getMenuList());
-        System.out.println("[ROUTE] forward -> /list.jsp (size=" + (service.getMenuList() == null ? 0 : service.getMenuList().size()) + ")");
         request.getRequestDispatcher("/list.jsp").forward(request, response);
     }
 
