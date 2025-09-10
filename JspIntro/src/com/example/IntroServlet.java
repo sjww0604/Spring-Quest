@@ -23,7 +23,7 @@ public class IntroServlet extends HttpServlet {
         String foodsParam = req.getParameter("foods");
 
         String[] foods = (foodsParam == null ? new String[0]
-                : Arrays.stream(foodsParam.split(","))
+                : Arrays.stream(foodsParam.split(",")) // ','에 따라 값을 분리함
                     .map(String::trim)
                     .filter(s -> !s.isEmpty())
                 .toArray(String[]::new));
